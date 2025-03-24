@@ -18,19 +18,26 @@ func parseTraining(data string) (int, string, time.Duration, error) {
 	// ваш код ниже
 	parts := strings.Split(data, ",")
 	if len(parts) != 3 {
-		return 0, " ", 0, fmt.Errorf("неверный формат данных")
+		return 0, " ", 0, fmt.Errorf("invalid input format")
 	}
 
 	count := parts[0]
 	countSteps, err := strconv.Atoi(count)
+	if countSteps <= 0 {
+		return 0, " ", 0, fmt.Errorf("negative steps error: %w", err)
+	}
 	if err != nil {
-		return 0, " ", 0, fmt.Errorf("ошибка при парсинге количества")
+		return 0, " ", 0, fmt.Errorf("parsing quantity error: %w", err)
 	}
 
 	durationTraning := parts[2]
 	duration, err := time.ParseDuration(durationTraning)
+	if duration <= 0 {
+		return 0, " ", 0, fmt.Errorf("negative duration error: %w", err)
+
+	}
 	if err != nil {
-		return 0, " ", 0, fmt.Errorf("ошибка при парсинге длительности")
+		return 0, " ", 0, fmt.Errorf("parsing duration error: %w", err)
 	}
 
 	activityType := parts[1]

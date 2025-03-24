@@ -18,19 +18,19 @@ func parsePackage(data string) (int, time.Duration, error) {
 
 	parts := strings.Split(data, ",")
 	if len(parts) != 2 {
-		return 0, 0, fmt.Errorf("неверный формат данных")
+		return 0, 0, fmt.Errorf("invalid input format")
 	}
 
 	countStep := parts[0]
 	count, err := strconv.Atoi(countStep)
 	if err != nil {
-		return 0, 0, fmt.Errorf("ошибка при парсинге количества")
+		return 0, 0, fmt.Errorf("parsing quantity error: %w", err)
 	}
 
 	durationTraning := parts[1]
 	duration, err := time.ParseDuration(durationTraning)
 	if err != nil {
-		return 0, 0, fmt.Errorf("ошибка при парсинге длительности")
+		return 0, 0, fmt.Errorf("parsing duration error: %w", err)
 	}
 	return count, duration, nil
 
@@ -50,6 +50,9 @@ func DayActionInfo(data string, weight, height float64) string {
 		return ""
 	}
 	if steps <= 0 {
+		return ""
+	}
+	if duration <= 0 {
 		return ""
 	}
 
